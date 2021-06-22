@@ -1,0 +1,18 @@
+{
+    "advancedNewFile.convenienceOptions": [
+
+        "last",
+        "current",
+        "root"
+    ],
+    "emmet.triggerExpansionOnTab": true,
+        "files.associations": {
+            "*html": "html"
+    },
+    "emmet.excludeLanguages": [
+
+
+
+        "markdown"
+    ]
+}

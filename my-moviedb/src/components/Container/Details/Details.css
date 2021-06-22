@@ -1,0 +1,92 @@
+.details {
+  padding: 24px;
+  position: relative;
+}
+.details .poster {
+  padding-top: 50px;
+  height: 350px;
+  width: 250px;
+  object-fit: fill;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+.item-info {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+.item-details {
+  padding: 30px 30px;
+  width: 100%;
+}
+
+.watchlist {
+  background: transparent;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  outline: none;
+  border: none;
+  border: 1.5px solid rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  text-decoration: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+.watchlist .icon {
+  /* fill: black; */
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 10px;
+}
+.item-title {
+  margin-top: 36px;
+  margin-bottom: 20px;
+  font-size: 45px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+}
+.item-full-details,
+.item-actors {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.item-actors {
+  padding-top: 30px;
+  font-size: 18px;
+  width: 350px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.item-description {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.7);
+  padding: 16px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-right: none;
+  border-left: none;
+  margin-top: 16px;
+}
+.movie-cert {
+  padding: 2px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  margin: 0 6px;
+  display: inline-block;
+}
+
+.item-ratings {
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+}
+.item-ratings .rating:last-child {
+  border-right: none;
+}

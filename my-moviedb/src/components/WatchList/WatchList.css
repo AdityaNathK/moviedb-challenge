@@ -1,0 +1,35 @@
+.watch-container > h3 {
+  margin-left: 20px;
+}
+.watch-list-items {
+  padding: 2px 2px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  margin: 5px 5px;
+  display: inline-block;
+}
+.watch-list {
+  display: inline-flex;
+  align-items: center;
+}
+.watch-list .list-image {
+  height: 50px;
+  width: 40px;
+  object-fit: cover;
+}
+.watch-list .icon {
+  height: 1rem;
+  width: 1rem;
+}
+.cross-btn {
+  background: transparent;
+  border: none;
+}
+
+.info-block {
+  display: inline-flex;
+}
+.info-block .title {
+  font-size: 13px;
+  padding: 1px;
+}

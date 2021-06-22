@@ -1,0 +1,20 @@
+.search-bar {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.search-bar .icon {
+  height: 2rem;
+  width: 2rem;
+  color: white;
+}
+.search-bar input {
+  padding: 4px 8px;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: 0.5rem;
+  color: white;
+  width: 100%;
+}
