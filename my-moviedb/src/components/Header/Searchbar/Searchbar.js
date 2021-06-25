@@ -18,7 +18,7 @@ const Searchbar = ({ searchVar, setSearchVar }) => {
           clearTimeout(typingTimeOut);
           const timeOut = setTimeout(() => {
             setSearchVar(textInput);
-          }, 500);
+          }, 1000);
           setTypingTimeOut(timeOut);
         }}
       />

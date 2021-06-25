@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Container from "./components/Container/Container";
+import { useRef } from "react";
 
 const PAGE_NUMBER = 1;
 const urlRoot = process.env.REACT_APP_OMDB_URL;
@@ -19,138 +20,76 @@ function App() {
   const [page, setPage] = useState(PAGE_NUMBER);
   const [range, setRange] = useState([1989, 2005]);
   const [watchList, setWatchlist] = useState([]);
-  const [episodeCount, setEpisodeCount] = useState(0);
-  let urlString = new URL(`${urlRoot}?apikey=${apiKey}`);
-  let epCount = 0;
+  const epCount = useRef(0);
 
-  // const urlString = new URL(`${urlRoot}?apikey=${apiKey}&s=${searchVar}`);
   //? direct api reference = const {data} = 'http://www.omdbapi.com/?s=Star Wars&apikey=68626b7b'
 
+  let urlString = new URL(`${urlRoot}?apikey=${apiKey}&page=${page}`);
   // useEffect for Searching, Radio , range(not working at the moment)
   useEffect(() => {
     const fetchMoviesFromAPI = async () => {
       if (searchVar) {
-        switch (radio) {
-          case "movie":
-          case "series":
-            urlString = urlString + `&s=${searchVar}` + `&type=${radio}`;
-            axios.get(urlString).then((res) => {
-              if (searchVar) {
-                if (res.data.Search) {
-                  setApiResponse(true);
-                  setMovie(res.data.Search);
-                  setTotalResults(res.data.totalResults);
-                }
-              } else {
-                setApiResponse(false);
-              }
-            });
-            break;
-          // case "series":
-          //   urlString = urlString + `&s=${searchVar}` + `&type=${radio}`;
-          //   axios.get(urlString).then((res) => {
-          //     if (searchVar) {
-          //       if (res.data.Search) {
-          //         setApiResponse(true);
-          //         setMovie(res.data.Search);
-          //         setTotalResults(res.data.totalResults);
-          //       }
-          //     } else {
-          //       setApiResponse(false);
-          //     }
-          //   });
-          //   break;
-          case "episode":
-            urlString = urlString + `&t=${searchVar}`;
-            axios.get(urlString).then((result) => {
-              if (searchVar) {
-                if (result.data) {
-                  setApiResponse(true);
-                  setTotalSeasons(parseInt(result.data.totalSeasons));
-                  if (totalSeasons > 1) {
-                    //TODO: a common function can be called here
-                    //todo: epcount needs to be addressed
-                    for (var i = 1; i <= totalSeasons; i++) {
-                      axios.get(urlString + `&Season=${i}`).then((result) => {
-                        if (result.data) {
-                          let seasonData = result.data.Episodes;
-                          epCount = epCount + seasonData.length;
-                          // setEpisodeCount(epCount);
-                          setTotalResults(epCount);
-                          console.log(result.data);
-                          // setMovie(result.data.Search);
-                        }
-                      });
+        epCount.current = 0;
+
+        if (radio === "movie" || radio === "series") {
+          urlString = urlString + `&s=${searchVar}&type=${radio}`;
+          axios.get(urlString).then((result) => {
+            if (page === 1 && result.data.Search) {
+              setApiResponse(true);
+              setMovie(result.data.Search);
+              setTotalResults(result.data.totalResults);
+            } else if (page > 1 && result.data.Search) {
+              setApiResponse(true);
+              console.log("url page-mov-ser :" + urlString);
+              setMovie([...movie, ...result.data.Search]);
+            }
+          });
+          console.log("url movie|series :" + urlString);
+        } else if (radio === "episode") {
+          urlString = urlString + `&t=${searchVar}`;
+          axios.get(urlString).then((result) => {
+            if (result.data) {
+              setApiResponse(true);
+              setTotalSeasons(parseInt(result.data.totalSeasons));
+              if (totalSeasons > 1) {
+                for (var i = 1; i <= totalSeasons; i++) {
+                  axios.get(urlString + `&Season=${i}`).then((result) => {
+                    if (result.data) {
+                      let episodeData = result.data.Episodes;
+                      console.log("Episode Data = :" + episodeData);
+                      epCount.current = epCount.current + episodeData.length;
+                      console.log(result.data);
+                      setTotalResults(epCount.current);
                     }
-                    console.log(episodeCount);
-                  }
-
-                  // console.log("Inside episode: " + result.data.totalSeasons);
-                  // setTotalSeasons(data.totalSeasons);
+                  });
                 }
-              } else {
-                setApiResponse(false);
               }
-            });
-            break;
-          case "any":
-            urlString = urlString + `&s=${searchVar}`;
-            axios.get(urlString).then((res) => {
-              if (searchVar) {
-                if (res.data.Search) {
-                  setApiResponse(true);
-                  setMovie(res.data.Search);
-                  setTotalResults(res.data.totalResults);
-                }
-              } else {
-                setApiResponse(false);
-              }
-            });
-            break;
-
-          default:
-            setApiResponse(false);
-            break;
+            }
+          });
+          console.log("url episode--inside episode :" + urlString);
+        } else {
+          urlString = urlString + `&s=${searchVar}`;
+          axios.get(urlString).then((result) => {
+            if (page === 1 && result.data.Search) {
+              setApiResponse(true);
+              setMovie(result.data.Search);
+              setTotalResults(result.data.totalResults);
+            } else if (page > 1 && result.data.Search) {
+              setApiResponse(true);
+              console.log("url page- any :" + urlString);
+              setMovie([...movie, ...result.data.Search]);
+            }
+          });
+          console.log("url any :" + urlString);
         }
-        // if (radio === "movie" || radio === "series" || radio === "episode") {
-        //   urlString.searchParams.append("type", radio);
-        // }
-
-        // if (searchVar) {
-        //   if (data.Search) {
-        //     setApiResponse(true);
-        //     setMovie(data.Search);
-        //     setTotalResults(data.totalResults);
-        //   }
-        // } else {
-        //   setApiResponse(false);
-        // }
+        console.log("url out of if :" + urlString);
+      } else {
+        setApiResponse(false);
       }
     };
 
-    fetchMoviesFromAPI(searchVar, radio, range);
-  }, [searchVar, radio, range]);
-
-  // useEffect(()=>{
-  //   if (radio === "episode") {
-  //     if (searchVar) {
-
-  //       }
-  //     } else {
-  //       setApiResponse(false);
-  //     }
-  //   }
-  // });
-  // useEffect for handling page increment
-  useEffect(() => {
-    if (page > 1) {
-      urlString.searchParams.append("page", page);
-      setApiResponse(true);
-      axios.get(urlString).then((res) => {
-        setMovie([...movie, ...res.data.Search]);
-      });
-    }
-  }, [page]);
+    fetchMoviesFromAPI(searchVar, radio, range, page);
+  }, [searchVar, radio, range, page]);
 
   const handleWatchList = (movie) => {
     const newList = [...watchList, movie];
