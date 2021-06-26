@@ -38,10 +38,14 @@ function App() {
               setApiResponse(true);
               setMovie(result.data.Search);
               setTotalResults(result.data.totalResults);
-            } else if (page > 1 && result.data.Search) {
-              setApiResponse(true);
-              console.log("url page-mov-ser :" + urlString);
-              setMovie([...movie, ...result.data.Search]);
+            } else if (page > 1) {
+              axios.get(urlString).then((result) => {
+                if (result.data.Search) {
+                  setApiResponse(true);
+                  console.log("url page-mov-ser :" + urlString);
+                  setMovie([...movie, ...result.data.Search]);
+                }
+              });
             }
           });
           console.log("url movie|series :" + urlString);
@@ -116,6 +120,7 @@ function App() {
         setRadio={setRadio}
         range={range}
         setRange={setRange}
+        setPage={setPage}
       />
 
       {apiResponse ? (

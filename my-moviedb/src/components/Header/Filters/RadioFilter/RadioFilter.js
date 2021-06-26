@@ -1,7 +1,7 @@
 import React from "react";
 import "./RadioFilter.css";
 
-const TypeFilter = ({ radio, setRadio }) => {
+const TypeFilter = ({ radio, setRadio, setPage }) => {
   return (
     <div className="type-filter">
       <label>TYPE</label>
@@ -13,6 +13,7 @@ const TypeFilter = ({ radio, setRadio }) => {
           checked={radio === "any"}
           value="any"
           onChange={(e) => {
+            setPage(1);
             setRadio(e.target.value);
           }}
         />
@@ -24,6 +25,7 @@ const TypeFilter = ({ radio, setRadio }) => {
           checked={radio === "movie"}
           value="movie"
           onChange={(e) => {
+            setPage(1);
             setRadio(e.target.value);
           }}
         />
@@ -35,6 +37,7 @@ const TypeFilter = ({ radio, setRadio }) => {
           checked={radio === "series"}
           value="series"
           onChange={(e) => {
+            setPage(1);
             setRadio(e.target.value);
           }}
         />
@@ -46,6 +49,7 @@ const TypeFilter = ({ radio, setRadio }) => {
           checked={radio === "episode"}
           value="episode"
           onChange={(e) => {
+            setPage(1);
             setRadio(e.target.value);
           }}
         />

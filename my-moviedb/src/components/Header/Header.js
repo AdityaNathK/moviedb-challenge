@@ -10,6 +10,7 @@ const Header = ({
   setRadio,
   range,
   setRange,
+  setPage,
 }) => {
   return (
     <div className="header">
@@ -20,6 +21,7 @@ const Header = ({
           setRadio={setRadio}
           range={range}
           setRange={setRange}
+          setPage={setPage}
         />
       </div>
     </div>
